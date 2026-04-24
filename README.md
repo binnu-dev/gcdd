@@ -45,6 +45,28 @@ AgentCon Seoul 발표 + 사내 발표 자료를 섞어서 실제 경험을 소�
 - `.github/prompts/` 작성: 반복 업무용 프롬프트 파일 만들고 슬래시 커맨드로 실행
 - Agent 모드로 샘플 데이터 분석 요청해보기
 
+**프롬프트 예제 — "이렇게도 쓸 수 있구나" 싶은 것들**
+
+단순 요약이나 번역 말고, AI에게 적대적 역할을 맡기는 방식이 의외로 강력하다.
+
+| 이름 | 사용법 | 효과 |
+|---|---|---|
+| Grill Me | "이 기획안 들고 있을게, 심문해봐" | 투자자/임원처럼 약점을 집요하게 파고들어 논리 검증 |
+| Pre-Mortem | "6개월 후 이 프로젝트가 완전히 망했다고 가정하자. 왜 실패했을까?" | 낙관론에서 벗어나 실패 원인을 역산 |
+| Inversion | "이 캠페인을 확실히 망하게 하려면 어떻게 해야 할까?" | 실패 조건 나열 → 뒤집어서 리스크 체크리스트로 |
+| Red Team | "경쟁사 마케터 입장에서 우리 신제품 약점 분석해줘" | 역할을 명확히 줄수록 날카로워짐 |
+
+---
+
+**잠깐 — Instructions / Prompts / Skills 뭐가 다를까?**
+
+| | Instructions | Prompts | Skills |
+|---|---|---|---|
+| 파일 | `copilot-instructions.md` | `prompts/*.prompt.md` | `skills/*.skill.md` |
+| 언제 | 항상 자동 적용 | 내가 부를 때 (`/slash`) | 내가 장착할 때 |
+| 역할 | "넌 이런 팀에서 일해" | "이 작업 지금 해줘" | "이 전문성을 갖춰" |
+| 비유 | 팀 온보딩 문서 | 업무 요청 양식 | 외부 전문가 소환 |
+
 #### 3단계: Skills 써보기 — AI에게 새 능력을 장착한다
 
 `skill.md`는 AI에게 특정 역할이나 행동 방식을 부여하는 파일이다. Copilot뿐 아니라 Claude Code, Cursor, Codex 등 어떤 AI 에디터에서도 공용으로 쓸 수 있다.
@@ -78,7 +100,7 @@ MCP(Model Context Protocol)를 연결하면 AI가 외부 서비스와 실시간�
 
 > 참고: 한국 개발자들이 만든 MCP 모음 → [awesome-mcp-korea](https://github.com/darjeeling/awesome-mcp-korea)
 
-#### 4단계: 마무리 — 커뮤니티에는 이미 이런 것도 있다
+#### 5단계: 마무리 — 커뮤니티에는 이미 이런 것도 있다
 
 **Awesome Copilot** VS Code 확장 설치 (`TimHeuer.awesome-copilot`)
 
