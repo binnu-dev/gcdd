@@ -45,7 +45,24 @@ AgentCon Seoul 발표 + 사내 발표 자료를 섞어서 실제 경험을 소�
 - `.github/prompts/` 작성: 반복 업무용 프롬프트 파일 만들고 슬래시 커맨드로 실행
 - Agent 모드로 샘플 데이터 분석 요청해보기
 
-#### 3단계: MCP 연결 — AI의 눈이 바깥으로 열린다
+#### 3단계: Skills 써보기 — AI에게 새 능력을 장착한다
+
+`skill.md`는 AI에게 특정 역할이나 행동 방식을 부여하는 파일이다. Copilot뿐 아니라 Claude Code, Cursor, Codex 등 어떤 AI 에디터에서도 공용으로 쓸 수 있다.
+
+**Agent Browser** (VS Code 내장)
+- Agent 모드 → Tools → Browser 활성화
+- AI가 브라우저를 직접 열고 조작 — 페이지 읽기, 클릭, 정보 수집
+- "이 경쟁사 사이트 열어서 가격 정보 가져와줘"
+
+**Frontend Design Skill** (awesome-copilot, 커뮤니티 다운로드)
+- AI가 코딩 전에 디자인 원칙을 읽고 시작 → 뻔한 레이아웃 탈출
+- 샘플 데이터를 넣고 "HTML 보고서로 예쁘게 만들어줘" 하면 결과물 차이가 눈에 보임
+
+**Documentation Writer Skill** (awesome-copilot, 커뮤니티 다운로드)
+- 업무 메모나 회의 내용을 넣으면 잘 구조화된 문서로 자동 정리
+- 페르소나 실습과 바로 연결: 내 팀 업무 → 팀 온보딩 문서화
+
+#### 4단계: MCP 연결 — AI의 눈이 바깥으로 열린다
 
 MCP(Model Context Protocol)를 연결하면 AI가 외부 서비스와 실시간으로 연결된다.
 
