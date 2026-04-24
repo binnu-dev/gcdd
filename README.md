@@ -4,6 +4,13 @@
 
 목표는 코딩을 배우는 것이 아니라, VS Code를 AI 작업실로 설정해 **팀 전용 AI 비서**를 직접 만드는 것입니다.
 
+이 저장소의 핸즈온은 다음 두 가지를 함께 유지합니다.
+
+- **Sean**: 참가자들이 공통으로 쓰는 AI 비서 페르소나
+- **미소테크 마케팅팀**: 실습용으로 고정한 가상의 팀 설정
+
+즉, 참가자들은 같은 기본 맥락에서 출발하고, 각자 프롬프트와 결과물을 다르게 발전시키게 됩니다.
+
 ---
 
 ## Core Idea
@@ -30,46 +37,51 @@ AgentCon Seoul + 사내 발표 자료를 섞어 실제 경험을 소개합니다
 
 ### 뒤 90분 — 핸즈온: 직접 만들어보기
 
+#### 1단계 | 페르소나 (5분)
+
+참가자들은 모두 **미소테크 마케팅팀**이라는 가상 팀으로 실습을 시작합니다.
+
+- 리포를 클론하고 VS Code로 엽니다.
+- Sean은 공통 AI 비서 페르소나로 사용합니다.
+- 참가자들은 실제 자기 팀 대신 같은 가상 맥락에서 먼저 성공 경험을 만듭니다.
+
+```bash
+git clone https://github.com/binnu-dev/vscode-ai-workshop-for-non-devs.git
+cd vscode-ai-workshop-for-non-devs
+code .
+```
+
 ---
 
-#### 1단계 | 가상 페르소나 (5분)
+#### 2단계 | Instructions + Prompts (30분)
 
-모두 동일한 가상 회사·팀으로 실습합니다. 같은 조건에서 시작해 서로 결과를 비교하는 재미가 있습니다.
+**① `.github/copilot-instructions.md` 작성**
 
-> **미소테크 마케팅팀**
-> B2B SaaS 스타트업의 5인 마케팅팀.
-> SNS·이메일 캠페인을 운영하며 매주 채널별 성과 보고서를 작성합니다.
-> 샘플 데이터: `data/marketing-campaign.csv`
-
----
-
-#### 2단계 | Instructions + Prompts 만들기 (30분)
-
-**① copilot-instructions.md 작성**
-
-`.github/copilot-instructions.md` 파일을 만들어 팀 맥락을 AI에게 알려줍니다.
-이 파일은 Copilot Chat을 열 때마다 자동으로 적용됩니다.
+`.github/copilot-instructions.md` 파일로 Sean의 말투와 가상 팀 맥락을 AI에게 알려줍니다. 이 파일은 Copilot Chat을 열 때마다 자동으로 적용됩니다.
 
 ```markdown
-## 우리 팀 소개
-- 팀명: 마케팅팀 (5명)
-- 회사: 미소테크 (B2B SaaS)
-- 주요 채널: Instagram, LinkedIn, 이메일
+# Sean — 가상 팀을 위한 AI 비서
 
-## 자주 쓰는 용어
-- MQL: Marketing Qualified Lead
-- CTR: 클릭률
+## Sean 페르소나
+- 기본 언어: 한국어
+- 말투: 친근하고 협력적
+- 답변 끝에 여우 이모지 🦊
+
+## 실습용 가상 팀
+- 회사: 미소테크 (B2B SaaS)
+- 팀: 5인 마케팅팀
+- 주요 채널: Instagram, LinkedIn, 블로그, 이메일
 
 ## 보고 스타일
-- 항상 한국어로 작성
-- 임원 보고: 핵심 수치 + 한 줄 인사이트
+- 임원 보고: 핵심 수치 3개 + 한 줄 인사이트
+- 팀 내부: 채널별 상세 수치 + 다음 주 액션 아이템
 ```
 
 샘플 파일: `.github/copilot-instructions.md`
 
 ---
 
-**② prompts 파일 만들기**
+**② `.github/prompts/weekly-report.prompt.md` 작성**
 
 `.github/prompts/` 폴더에 파일을 만들면 Copilot Chat에서 `/파일명`으로 실행할 수 있습니다.
 
@@ -78,17 +90,21 @@ AgentCon Seoul + 사내 발표 자료를 섞어 실제 경험을 소개합니다
 ---
 mode: agent
 ---
-data/marketing-campaign.csv를 읽고 이번 주 성과 보고서를 작성해주세요.
-채널별 CTR, 전환수, 전주 대비 증감, 다음 주 제안 액션을 포함해주세요.
+data/marketing-campaign.csv를 읽고 가장 최근 데이터를 기준으로
+주간 마케팅 성과 보고서를 작성해주세요.
 ```
 
 Chat에서 `/weekly-report` 입력 → 보고서 초안 완성
 
-샘플 파일: `.github/prompts/weekly-report.prompt.md`, `meeting-notes.prompt.md`, `grill-me.prompt.md`
+필요에 따라 아래 샘플도 함께 보여줄 수 있습니다.
+
+- `.github/prompts/monthly-report.prompt.md`
+- `.github/prompts/meeting-notes.prompt.md`
+- `.github/prompts/grill-me.prompt.md`
 
 ---
 
-**③ Ask / Plan / Agent 모드의 차이**
+**③ Ask / Plan / Agent 모드의 차이 설명**
 
 | 모드 | 역할 | 언제 쓰나 |
 |---|---|---|
@@ -96,7 +112,7 @@ Chat에서 `/weekly-report` 입력 → 보고서 초안 완성
 | Plan | 실행 전 계획을 먼저 보여줌 | 뭘 할지 확인하고 싶을 때 |
 | Agent | 파일 읽기·쓰기·실행까지 자율 수행 | 실제 작업을 맡길 때 |
 
-**Agent 모드 권한 설정 (Permission)**
+**④ Permission 설명 (Default / Bypass / Autopilot)**
 
 | 설정 | 동작 |
 |---|---|
@@ -106,9 +122,9 @@ Chat에서 `/weekly-report` 입력 → 보고서 초안 완성
 
 ---
 
-**④ 이렇게도 쓸 수 있다 — 적대적 프롬프트**
+**⑤ 다양한 관점을 보게 도와주는 프롬프트 소개**
 
-단순 요약·번역 말고, AI에게 날카로운 역할을 맡기면 훨씬 강력합니다.
+단순 요약·번역 말고, 같은 주제를 다른 시각에서 보게 만드는 prompt 예제로 소개합니다.
 
 | 이름 | 사용법 | 효과 |
 |---|---|---|
@@ -117,47 +133,25 @@ Chat에서 `/weekly-report` 입력 → 보고서 초안 완성
 | Inversion | "이 캠페인을 확실히 망하게 하려면 어떻게 해야 할까?" | 실패 조건 나열 → 뒤집어서 리스크 체크리스트 |
 | Red Team | "경쟁사 마케터 입장에서 우리 신제품 약점 분석해줘" | 역할이 명확할수록 날카로워짐 |
 
-샘플 파일: `.github/prompts/grill-me.prompt.md`
+소개 항목:
+
+- Grill Me
+- Pre-Mortem
+- Inversion
+- Red Team
 
 ---
 
-**⑤ Instructions / Prompts / Skills — 뭐가 다를까?**
-
-| | Instructions | Prompts | Skills |
-|---|---|---|---|
-| 파일 위치 | `copilot-instructions.md` | `prompts/*.prompt.md` | `skills/*.skill.md` |
-| 언제 작동 | 항상 자동 적용 | 내가 부를 때 (`/slash`) | 내가 장착할 때 |
-| 역할 | "넌 이런 팀에서 일해" | "이 작업 지금 해줘" | "이 전문성을 갖춰" |
-| 비유 | 팀 온보딩 문서 | 업무 요청 양식 | 외부 전문가 소환 |
-
 ---
 
-#### 3단계 | Skills 써보기 (20분)
+#### 3단계 | MCP (20분)
 
-`skill.md`는 AI에게 특정 전문성을 부여하는 파일입니다. Copilot뿐 아니라 Claude Code, Cursor, Codex 등 어떤 AI 에디터에서도 범용으로 쓸 수 있습니다.
+MCP(Model Context Protocol)를 연결하면 AI가 파일 바깥의 서비스와 실시간으로 연결됩니다.
 
-**Agent Browser** (VS Code 내장)
-- Agent 모드 → Tools → Browser 활성화
-- AI가 브라우저를 직접 열고 조작 — 페이지 읽기, 클릭, 정보 수집
-- 예: "이 경쟁사 사이트 열어서 가격 정보 가져와줘"
-
-**Frontend Design Skill** ([awesome-copilot](https://github.com/github/awesome-copilot) 다운로드)
-- AI가 코딩 전에 디자인 원칙을 먼저 읽고 시작 → 뻔한 레이아웃 탈출
-- 예: `data/marketing-campaign.csv` 넣고 "HTML 보고서로 예쁘게 만들어줘" → 전/후 차이가 눈에 보임
-
-**Documentation Writer Skill** ([awesome-copilot](https://github.com/github/awesome-copilot) 다운로드)
-- 업무 메모를 Diátaxis 프레임워크 기반 구조화 문서로 자동 정리
-- 예: "우리 팀 주간 보고 프로세스를 온보딩 문서로 만들어줘"
-
----
-
-#### 4단계 | MCP 연결 — AI의 눈이 바깥으로 열린다 (20분)
-
-MCP(Model Context Protocol)를 연결하면 AI가 외부 서비스와 실시간으로 연결됩니다.
-
-**다이소 MCP** (API 키 불필요 — 워밍업)
+**① 다이소 MCP 연결 (워밍업)**
 
 VS Code `settings.json`에 추가:
+
 ```json
 {
   "mcp": {
@@ -171,42 +165,102 @@ VS Code `settings.json`에 추가:
 ```
 
 데모:
+
 - "강남역 근처 다이소에 A4 파일박스 재고 있어?"
 - "오늘 CGV 홍대 상영시간 알려줘"
 
 ---
 
-**DART MCP** (금융감독원 공시 데이터 — 메인 데모)
+**② DART MCP 연결 → 재무 데이터 가져와서 가공**
 
 GitHub: [keonho-kim/OpenDart-mcp](https://github.com/keonho-kim/OpenDart-mcp)
 
 데모:
-```
+
+```text
 "삼성전자랑 카카오 최근 3개년 매출 가져와줘"
 → 데이터 수신 후:
 "두 회사 실적을 비교 표로 정리하고 마케팅팀 보고서용 요약 한 단락 써줘"
 ```
 
-데이터 수집 + 분석 + 문서화까지 한 번에 — 이게 핵심 임팩트입니다.
+데이터 수집 + 분석 + 문서화까지 한 번에 보여주는 단계입니다.
 
 > 한국 개발자들이 만든 MCP 모음 → [awesome-mcp-korea](https://github.com/darjeeling/awesome-mcp-korea)
 
 ---
 
-#### 5단계 | 커뮤니티엔 이미 이런 것도 있다 (10분)
+#### 4단계 | Skills (20분)
 
-VS Code 확장 `TimHeuer.awesome-copilot` 설치 → 208개+ skills 브라우징 & 1클릭 다운로드
+`skill.md`는 AI에게 특정 전문성을 부여하는 파일입니다. Copilot뿐 아니라 Claude Code, Cursor, Codex 등 어떤 AI 에디터에서도 범용으로 쓸 수 있습니다.
 
-오늘 직접 만든 것과 같은 구조인데, 커뮤니티가 이미 만들어둔 것들:
+**① Agent Browser 써보기**
 
-| 이름 | 설명 |
-|---|---|
-| Meeting Minutes | 회의록·녹취를 넣으면 결정사항·액션아이템 포함 회의록으로 자동 정리 |
-| Email Drafter | 내 말투·톤을 학습해서 이메일 초안 생성 |
-| Daily Prep | Outlook 캘린더 읽어서 일정 분류 + 집중 시간 탐지 + 미팅 사전 준비 |
-| LinkedIn Post Formatter | 아이디어를 LinkedIn 최적화 포맷으로 변환 (Unicode 볼드 포함) |
+- Agent 모드 → Tools → Browser 활성화
+- AI가 브라우저를 직접 열고 조작 — 페이지 읽기, 클릭, 정보 수집
+- 예: "이 경쟁사 사이트 열어서 가격 정보 가져와줘"
 
-> [github/awesome-copilot](https://github.com/github/awesome-copilot)
+**② Frontend Design Skill 써보기 → HTML 보고서 만들기**
+
+- Anthropic 공식 `frontend-design` skill을 예제로 사용
+- AI가 코딩 전에 디자인 원칙을 먼저 읽고 시작 → 뻔한 레이아웃 탈출
+- 예: `data/marketing-campaign.csv` 넣고 "HTML 보고서로 예쁘게 만들어줘" → 전/후 차이가 눈에 보임
+
+**③ Skill Creator 살짝 보기**
+
+- Anthropic 공식 `skill-creator` skill 구조를 열어봄
+- skill을 어떻게 평가하고 다듬는지 참고용으로 보여줌
+
+**④ prompt와 skill 차이 실험**
+
+월간 보고서 하나를 예시로 두고 비교합니다.
+
+- 먼저 `.github/prompts/monthly-report.prompt.md` 로 보고서를 만들어 봅니다.
+- 이 단계에서도 목표 결과물은 동일합니다. 즉, 월간 보고서를 **HTML 결과물**로 만들게 합니다.
+- prompt 안에서 보고서에 어떤 내용이 들어가야 하는지, 데이터 분석이 꼭 포함되어야 한다는 점까지 말로 설명합니다.
+- 다만 이 단계에서는 구조와 스타일을 말로만 설명하므로 결과가 조금씩 달라질 수 있습니다.
+- prompt는 그냥 말로 설명하는 요청에 가깝습니다.
+- 그 다음 `.github/skills/monthly-report-template/` 예제를 내려받아 봅니다.
+- 이 skill 폴더 안에는 월간 보고서에 어떤 데이터 분석이 들어가야 하는지 적은 문서, HTML 템플릿, 보조 스크립트가 함께 들어 있습니다.
+- 처음에는 `SKILL.md` 에 `description`이 없어서 자동 발동이 잘 안 되는 상태로 시작합니다.
+- 참가자들이 `description`을 직접 추가합니다.
+- 다시 같은 월간 HTML 보고서를 만들게 해서 결과 차이를 비교합니다.
+
+여기서 보여주고 싶은 포인트는 다음과 같습니다.
+
+- `prompt`는 작업 요청서에 가깝습니다.
+- `prompt`도 같은 결과물을 만들 수는 있습니다.
+- `skill`은 작업 요청서보다 더 자세한 작업 매뉴얼에 가깝습니다.
+- skill 안에는 CSS 스타일, HTML 템플릿, 섹션 순서, 채워 넣을 값의 범위, 필요한 데이터 분석 규칙까지 더 강하게 고정할 수 있습니다.
+- 그래서 `prompt`는 비슷하지만 조금씩 다른 결과가 나오고, `skill`은 더 의도한 결과에 가깝게 맞춰집니다.
+
+---
+
+**⑤ Instructions / Prompts / Skills 개념 차이 정리**
+
+| | Instructions | Prompts | Skills |
+|---|---|---|---|
+| 파일 위치 | `copilot-instructions.md` | `prompts/*.prompt.md` | `skills/*.skill.md` |
+| 언제 작동 | 항상 자동 적용 | 내가 부를 때 (`/slash`) | 내가 장착할 때 |
+| 역할 | "넌 이런 팀에서 일해" | "이 작업 지금 해줘" | "이 전문성을 갖춰" |
+| 비유 | 팀 온보딩 문서 | 업무 요청 양식 | 외부 전문가 소환 |
+
+**⑥ hook / agent 같은 기능 살짝 소개**
+
+- hook: 특정 이벤트 전후에 자동으로 연결되는 확장 포인트
+- agent: 파일 읽기·쓰기·실행까지 맡기는 자율 작업 모드
+
+#### 5단계 | 팀 공유 체험 + 마무리 (15분)
+
+**① 팀 공유 체험**
+
+- 강사가 `team-docs/` 아래 새 파일을 push
+- 참가자들이 pull
+- Copilot이 방금 추가된 팀 문서를 바로 참조하는 흐름을 체험
+
+**② 마무리 정리**
+
+- 오늘 만든 구조를 자기 팀에 복제하는 방법 정리
+- `team-docs/`, instructions, prompts를 어떻게 팀 자산으로 남길지 정리
 
 ---
 
@@ -217,28 +271,53 @@ git clone https://github.com/binnu-dev/vscode-ai-workshop-for-non-devs.git
 cd vscode-ai-workshop-for-non-devs
 ```
 
-VS Code로 폴더를 열면 `.github/` 안에 샘플 Instructions와 Prompts가 준비되어 있습니다.
-`data/` 폴더의 샘플 CSV로 바로 실습을 시작할 수 있습니다.
+VS Code로 폴더를 열면 `.github/` 안에 Sean + 가상 팀 기준의 샘플 Instructions와 Prompts가 준비되어 있습니다. `data/` 폴더의 샘플 CSV로 바로 실습을 시작할 수 있습니다.
+
+---
 
 ## Repository Structure
 
-```
+```text
 .
 ├── .github/
-│   ├── copilot-instructions.md       # 샘플 팀 Instructions (미소테크 마케팅팀)
+│   ├── copilot-instructions.md         # Sean + 가상 팀 실습용 Instructions
 │   └── prompts/
-│       ├── weekly-report.prompt.md   # /weekly-report → 주간 보고서 초안
-│       ├── meeting-notes.prompt.md   # /meeting-notes → 회의록 정리
-│       └── grill-me.prompt.md        # /grill-me → 기획안 심문
+│       ├── weekly-report.prompt.md     # /weekly-report → 주간 보고서 초안
+│       ├── monthly-report.prompt.md    # /monthly-report → 월간 HTML 보고서
+│       ├── meeting-notes.prompt.md     # /meeting-notes → 회의록 정리
+│       └── grill-me.prompt.md          # /grill-me → 기획안 심문
+│
+│   └── skills/
+│       ├── frontend-design/
+│       │   ├── LICENSE.txt
+│       │   └── SKILL.md
+│       └── monthly-report-template/
+│           ├── SKILL.md                    # description을 직접 추가해보는 skill 예제
+│           ├── scripts/
+│           │   └── render-monthly-report.js
+│           └── references/
+│               ├── monthly-report-brief.md
+│               └── monthly-report-template.html
+│       └── skill-creator/
+│           ├── SKILL.md
+│           ├── agents/
+│           ├── references/
+│           └── scripts/
 │
 ├── data/
-│   └── marketing-campaign.csv        # 채널별 캠페인 성과 샘플 데이터
+│   └── marketing-campaign.csv          # 채널별 캠페인 성과 샘플 데이터
+├── team-docs/
+│   └── README.md                       # 팀 공유 체험용 문서 폴더
 │
-├── workshop-slides.html              # 발표용 슬라이드 (브라우저에서 바로 실행)
-└── (AgentCon + 사내 발표 자료 PDF)
+├── agentcon-2026-seoul-slides.html     # AgentCon 발표 슬라이드
+├── handson-2026-seoul-slides.html      # 핸즈온 설명 슬라이드
+└── (발표 자료 PDF)
 ```
+
+---
 
 ## Materials
 
 - `agentcon-2026-seoul-slides.html` / `.pdf` — AgentCon Seoul 발표 슬라이드
+- `handson-2026-seoul-slides.html` — Sean 기반 핸즈온 설명 슬라이드
 - `[260408] AI 팀 비서, 우리 팀에도 만들 수 있다 (1).pdf` — 2026-04-08 사내 발표 자료

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>{{month}} 월간 마케팅 보고서</title>
+  <style>
+    :root {
+      --bg: #f7f4ee;
+      --panel: #ffffff;
+      --ink: #161616;
+      --muted: #6d6d6d;
+      --line: #ddd6c8;
+      --accent: #8c5a2b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif;
+      line-height: 1.6;
+    }
+
+    .report {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .hero,
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 34px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+
+    .summary {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .kpi {
+      border-top: 2px solid var(--accent);
+      padding-top: 12px;
+    }
+
+    .kpi-label {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .channel {
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="report">
+    <section class="hero">
+      <div class="eyebrow">Monthly Report</div>
+      <h1>{{month}} 월간 마케팅 보고서</h1>
+      <p class="summary">{{summary}}</p>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Key Metrics</div>
+      <h2>핵심 수치</h2>
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-label">{{kpi_1_label}}</div>
+          <div class="kpi-value">{{kpi_1_value}}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">{{kpi_2_label}}</div>
+          <div class="kpi-value">{{kpi_2_value}}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">{{kpi_3_label}}</div>
+          <div class="kpi-value">{{kpi_3_value}}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Channels</div>
+      <h2>채널별 요약</h2>
+      <div class="grid">
+        <div>
+          <div class="channel"><strong>{{channel_1}}</strong><p>{{channel_1_summary}}</p></div>
+          <div class="channel"><strong>{{channel_2}}</strong><p>{{channel_2_summary}}</p></div>
+        </div>
+        <div>
+          <div class="channel"><strong>{{channel_3}}</strong><p>{{channel_3_summary}}</p></div>
+          <div class="channel"><strong>{{channel_4}}</strong><p>{{channel_4_summary}}</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Insight</div>
+      <h2>핵심 인사이트</h2>
+      <p>{{insight}}</p>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Next Month</div>
+      <h2>다음 달 액션</h2>
+      <ul>
+        <li>{{action_1}}</li>
+        <li>{{action_2}}</li>
+        <li>{{action_3}}</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
