@@ -119,6 +119,45 @@ MCP(Model Context Protocol)를 연결하면 AI가 외부 서비스와 실시간�
 
 ---
 
+## Getting Started
+
+```bash
+git clone https://github.com/binnu-dev/vscode-ai-workshop-for-non-devs.git
+cd vscode-ai-workshop-for-non-devs
+```
+
+VS Code로 폴더를 열면 `.github/` 안에 샘플 Instructions와 Prompts가 준비되어 있습니다.  
+`personas/` 폴더에서 본인 팀 카드를 확인하고, `data/` 폴더의 샘플 CSV로 바로 실습을 시작할 수 있습니다.
+
+## Repository Structure
+
+```
+.
+├── workshop-slides.html          # 워크샵 발표용 슬라이드 (브라우저에서 바로 실행)
+│
+├── .github/
+│   ├── copilot-instructions.md   # 샘플 팀 Instructions (마케팅팀 예시)
+│   └── prompts/
+│       ├── weekly-report.prompt.md   # 주간 보고서 초안 생성
+│       ├── meeting-notes.prompt.md   # 회의록 정리
+│       └── grill-me.prompt.md        # 기획안 심문 (Grill Me)
+│
+├── personas/                     # 가상 회사 팀 페르소나 카드
+│   ├── marketing-team.md
+│   ├── sales-team.md
+│   ├── hr-team.md
+│   └── planning-team.md
+│
+├── data/                         # 핸즈온용 샘플 데이터
+│   ├── marketing-campaign.csv    # 채널별 캠페인 성과
+│   ├── sales-pipeline.csv        # 영업 파이프라인 현황
+│   ├── hr-recruiting.csv         # 채용 진행 현황
+│   └── planning-tasks.csv        # 스프린트 태스크 현황
+│
+└── (발표 자료 PDF/HTML)
+
+```
+
 ## Materials
 
 - `agentcon-2026-seoul-slides.html`: AgentCon Seoul 발표 슬라이드 HTML
