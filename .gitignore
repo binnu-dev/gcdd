@@ -1,6 +1,7 @@
-.DS_Store
+﻿.DS_Store
 Thumbs.db
 .vscode/
 *.tmp
-# Ignore presentation and exported files
 *.pdf
+agentcon-2026-seoul-slides.html
+handson-2026-seoul-slides.html
