@@ -1,4 +1,4 @@
-# VS Code AI Workshop for Non-Developers
+﻿# VS Code AI Workshop for Non-Developers
 
 비개발자를 위한 VS Code + GitHub Copilot 핸즈온 워크샵 자료입니다.
 
@@ -45,17 +45,19 @@ AgentCon Seoul + 사내 발표 자료를 섞어 실제 경험을 소개합니다
 - Sean은 공통 AI 비서 페르소나로 사용합니다.
 - 참가자들은 실제 자기 팀 대신 같은 가상 맥락에서 먼저 성공 경험을 만듭니다.
 
+빈 폴더를 하나 만들고 VS Code로 연 뒤, VS Code 터미널에서 실행합니다.
+
 ```bash
-git clone https://github.com/binnu-dev/vscode-ai-workshop-for-non-devs.git
-cd vscode-ai-workshop-for-non-devs
-code .
+git clone https://github.com/binnu-dev/gcdd.git .
 ```
+
+마지막 `.`은 새 하위 폴더를 만들지 않고 현재 VS Code 폴더를 실습 루트로 쓰겠다는 뜻입니다.
 
 ---
 
 #### 2단계 | Instructions + Prompts (30분)
 
-**① `.github/copilot-instructions.md` 작성**
+**① `.github/copilot-instructions.md` 확인**
 
 `.github/copilot-instructions.md` 파일로 Sean의 말투와 가상 팀 맥락을 AI에게 알려줍니다. 이 파일은 Copilot Chat을 열 때마다 자동으로 적용됩니다.
 
@@ -70,31 +72,53 @@ code .
 ## 실습용 가상 팀
 - 회사: 미소테크 (B2B SaaS)
 - 팀: 5인 마케팅팀
-- 주요 채널: Instagram, LinkedIn, 블로그, 이메일
+- 실습 데이터: 공개 은행 전화 마케팅 캠페인 데이터
 
 ## 보고 스타일
 - 임원 보고: 핵심 수치 3개 + 한 줄 인사이트
-- 팀 내부: 채널별 상세 수치 + 다음 주 액션 아이템
+- 팀 내부: 고객 세그먼트별 상세 수치 + 다음 주 액션 아이템
 ```
 
-샘플 파일: `.github/copilot-instructions.md`
+샘플 파일은 이미 준비되어 있습니다: `.github/copilot-instructions.md`
 
 ---
 
-**② `.github/prompts/weekly-report.prompt.md` 작성**
+**② `.github/prompts/weekly-report.prompt.md` 사용**
 
-`.github/prompts/` 폴더에 파일을 만들면 Copilot Chat에서 `/파일명`으로 실행할 수 있습니다.
+`.github/prompts/` 폴더에 파일이 있으면 Copilot Chat에서 `/파일명`으로 실행할 수 있습니다.
 
 ```markdown
 <!-- .github/prompts/weekly-report.prompt.md -->
 ---
 mode: agent
+description: 이번 주 마케팅 성과 보고서 초안 작성
 ---
-data/marketing-campaign.csv를 읽고 가장 최근 데이터를 기준으로
+data/marketing-campaign.csv 파일과
+team-docs/weekly-worklog.md 파일을 읽고
+가장 최근 데이터를 기준으로
 주간 마케팅 성과 보고서를 작성해주세요.
 ```
 
-Chat에서 `/weekly-report` 입력 → 보고서 초안 완성
+`data/marketing-campaign.csv`는 UCI Bank Marketing 데이터셋에서 샘플링한 실제 공개 데이터입니다. `y = yes`는 고객이 정기예금에 가입했다는 뜻입니다.
+
+실습 흐름:
+
+1. `team-docs/weekly-worklog.md`를 열어 아직 업데이트가 필요한 항목을 확인합니다.
+2. Sean에게 아래처럼 업무 일지를 보강해달라고 요청합니다.
+3. Chat에서 `/weekly-report` 입력 → 성과 데이터 + 업무 일지를 반영한 보고서 초안 완성
+
+화면에 띄워둘 프롬프트 예시:
+
+```text
+Sean, team-docs/weekly-worklog.md를 업데이트해줘.
+
+아직 비어 있는 금요일 진행 상황, 이번 주 가장 큰 배움,
+다음 주 우선순위 3개, 리스크/블로커를 채워야 해.
+
+미소테크 마케팅팀 상황에 맞게 자연스럽게 상상해서 추가해줘.
+다만 기존 문서의 톤과 형식은 유지해줘.
+업데이트가 끝나면 어떤 내용을 추가했는지 짧게 요약해줘.
+```
 
 필요에 따라 아래 샘플도 함께 보여줄 수 있습니다.
 
@@ -150,6 +174,9 @@ MCP(Model Context Protocol)를 연결하면 AI가 파일 바깥의 서비스와 
 
 **① 다이소 MCP 연결 (워밍업)**
 
+참조: [hmmhmmhm/daiso-mcp](https://github.com/hmmhmmhm/daiso-mcp)
+프롬프트/HTTP API 참고: `https://mcp.aka.page/prompt`
+
 VS Code `settings.json`에 추가:
 
 ```json
@@ -167,13 +194,41 @@ VS Code `settings.json`에 추가:
 데모:
 
 - "강남역 근처 다이소에 A4 파일박스 재고 있어?"
+- "올리브영 명동 근처 매장 찾고 선크림 재고 확인해줘"
 - "오늘 CGV 홍대 상영시간 알려줘"
+
+다이소 MCP로 확인할 수 있는 것:
+
+- 다이소 상품 검색, 매장 검색, 매장별 재고, 일부 상품 진열 위치
+- 올리브영 매장/상품/재고
+- CU, GS25, 세븐일레븐, 이마트24, 롯데마트 매장/상품/재고
+- CGV, 메가박스, 롯데시네마 지점/영화/상영시간/잔여 좌석
 
 ---
 
 **② DART MCP 연결 → 재무 데이터 가져와서 가공**
 
-GitHub: [keonho-kim/OpenDart-mcp](https://github.com/keonho-kim/OpenDart-mcp)
+추천: [Dayoooun/dart-mcp](https://github.com/Dayoooun/dart-mcp)
+
+- 원격 URL: `https://dart-mcp-self.vercel.app/sse`
+- Vercel에 이미 배포되어 있어 바로 사용 가능
+- 14개 도구: 기업 검색, 공시, 재무제표, 배당, 임원/직원, 지분, 자본/주식 정보
+- 114,951개 기업 데이터, 2023~2025년 지원
+
+VS Code `settings.json`에 추가:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "opendart": {
+        "type": "http",
+        "url": "https://dart-mcp-self.vercel.app/sse"
+      }
+    }
+  }
+}
+```
 
 데모:
 
@@ -184,6 +239,8 @@ GitHub: [keonho-kim/OpenDart-mcp](https://github.com/keonho-kim/OpenDart-mcp)
 ```
 
 데이터 수집 + 분석 + 문서화까지 한 번에 보여주는 단계입니다.
+
+자세한 참조 정보: `docs/mcp-reference.md`
 
 > 한국 개발자들이 만든 MCP 모음 → [awesome-mcp-korea](https://github.com/darjeeling/awesome-mcp-korea)
 
@@ -203,7 +260,7 @@ GitHub: [keonho-kim/OpenDart-mcp](https://github.com/keonho-kim/OpenDart-mcp)
 
 - Anthropic 공식 `frontend-design` skill을 예제로 사용
 - AI가 코딩 전에 디자인 원칙을 먼저 읽고 시작 → 뻔한 레이아웃 탈출
-- 예: `data/marketing-campaign.csv` 넣고 "HTML 보고서로 예쁘게 만들어줘" → 전/후 차이가 눈에 보임
+- 예: `data/marketing-campaign.csv` 넣고 "고객 세그먼트별 HTML 보고서로 예쁘게 만들어줘" → 전/후 차이가 눈에 보임
 
 **③ Skill Creator 살짝 보기**
 
@@ -266,12 +323,15 @@ GitHub: [keonho-kim/OpenDart-mcp](https://github.com/keonho-kim/OpenDart-mcp)
 
 ## Getting Started
 
+빈 폴더를 VS Code로 연 뒤, VS Code 터미널에서 실행합니다.
+
 ```bash
-git clone https://github.com/binnu-dev/vscode-ai-workshop-for-non-devs.git
-cd vscode-ai-workshop-for-non-devs
+git clone https://github.com/binnu-dev/gcdd.git .
 ```
 
-VS Code로 폴더를 열면 `.github/` 안에 Sean + 가상 팀 기준의 샘플 Instructions와 Prompts가 준비되어 있습니다. `data/` 폴더의 샘플 CSV로 바로 실습을 시작할 수 있습니다.
+마지막 `.`은 새 하위 폴더를 만들지 않고 현재 VS Code 폴더를 실습 루트로 쓰겠다는 뜻입니다.
+
+VS Code로 폴더를 열면 `.github/` 안에 Sean + 가상 팀 기준의 샘플 Instructions와 Prompts가 준비되어 있습니다. `data/` 폴더의 샘플 CSV와 `team-docs/weekly-worklog.md` 업무 일지로 바로 실습을 시작할 수 있습니다.
 
 ---
 
@@ -282,7 +342,7 @@ VS Code로 폴더를 열면 `.github/` 안에 Sean + 가상 팀 기준의 샘플
 ├── .github/
 │   ├── copilot-instructions.md         # Sean + 가상 팀 실습용 Instructions
 │   └── prompts/
-│       ├── weekly-report.prompt.md     # /weekly-report → 주간 보고서 초안
+│       ├── weekly-report.prompt.md     # /weekly-report → 데이터 + 업무 일지 기반 주간 보고서
 │       ├── monthly-report.prompt.md    # /monthly-report → 월간 HTML 보고서
 │       ├── meeting-notes.prompt.md     # /meeting-notes → 회의록 정리
 │       └── grill-me.prompt.md          # /grill-me → 기획안 심문
@@ -305,9 +365,13 @@ VS Code로 폴더를 열면 `.github/` 안에 Sean + 가상 팀 기준의 샘플
 │           └── scripts/
 │
 ├── data/
-│   └── marketing-campaign.csv          # 채널별 캠페인 성과 샘플 데이터
+│   └── marketing-campaign.csv          # UCI Bank Marketing 샘플 데이터
+├── docs/
+│   ├── mcp-reference.md                # 다이소/DART MCP 연결 및 실습 질문 참조
+│   └── dataset-reference.md            # 실습 데이터 출처와 컬럼 설명
 ├── team-docs/
-│   └── README.md                       # 팀 공유 체험용 문서 폴더
+│   ├── README.md                       # 팀 공유 체험용 문서 폴더
+│   └── weekly-worklog.md               # /weekly-report 실습용 주간 업무 일지
 │
 ├── agentcon-2026-seoul-slides.html     # AgentCon 발표 슬라이드
 ├── handson-2026-seoul-slides.html      # 핸즈온 설명 슬라이드

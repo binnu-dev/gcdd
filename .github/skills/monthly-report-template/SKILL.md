@@ -14,7 +14,7 @@ name: monthly-report-template
 추천 description 예시:
 
 ```md
-description: Use when asked to create a monthly marketing report in HTML using the provided brief, template, and helper script.
+description: Use when asked to create a monthly marketing report in HTML from bank direct marketing campaign data using the provided brief, template, and helper script.
 ```
 
 ## 이 skill이 보여주려는 것
@@ -40,7 +40,7 @@ description: Use when asked to create a monthly marketing report in HTML using t
 5. 아래 값만 데이터에 맞게 채웁니다.
    - 보고 월
    - 핵심 수치 3개
-   - 채널별 요약
+   - 고객 세그먼트별 요약
    - 인사이트
    - 다음 달 액션 3개
 6. 인사이트에는 반드시 데이터 분석 내용을 포함합니다.

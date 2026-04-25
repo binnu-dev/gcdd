@@ -2,3 +2,5 @@
 Thumbs.db
 .vscode/
 *.tmp
+# Ignore presentation and exported files
+*.pdf
